@@ -1,4 +1,5 @@
 using MauiAppGiorgia2.Models;
+using Microsoft.Maui.Controls;
 
 namespace MauiAppGiorgia2;
 
@@ -38,6 +39,23 @@ public partial class ListPage : ContentPage
         {
             BindingContext = new Product()
         });
+
+    }
+
+    async void OnDeleteItemButtonClicked(object sender, EventArgs e)
+    {
+        Product product;
+       var shopList = (ShopList)BindingContext;
+        if (listView.SelectedItem != null)
+        {
+            product = listView.SelectedItem as Product;
+      
+            var listProductAll = await App.Database.GetListProducts();
+
+            var listProduct = listProductAll.FindAll(x => x.ProductID == product.ID & x.ShopListID == shopList.ID);
+        
+           await App.Database.DeleteListProductAsync(listProduct.FirstOrDefault());
+        }
 
     }
 }

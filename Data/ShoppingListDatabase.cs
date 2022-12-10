@@ -81,6 +81,12 @@ namespace MauiAppGiorgia2.Data
                 return _database.InsertAsync(listp);
             }
         }
+
+        public Task<int> DeleteListProductAsync(ListProduct listp)
+        {
+            return _database.DeleteAsync(listp);
+        }
+
         public Task<List<Product>> GetListProductsAsync(int shoplistid)
         {
             return _database.QueryAsync<Product>(
@@ -88,6 +94,12 @@ namespace MauiAppGiorgia2.Data
             + " inner join ListProduct LP"
             + " on P.ID = LP.ProductID where LP.ShopListID = ?",
             shoplistid);
+            
+        }
+
+        public Task<List<ListProduct>> GetListProducts()
+        {
+            return _database.QueryAsync<ListProduct>("select * from ListProduct");
         }
     }
 }
